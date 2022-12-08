@@ -40,6 +40,7 @@ int onOff = false;
 
 void setup () {
   Serial.begin(9600);
+  pinMode(rotate, OUTPUT);
   pinMode(motorFly1, OUTPUT);
   pinMode(motorFly2, OUTPUT);
   pinMode(tilt, OUTPUT);
@@ -48,7 +49,7 @@ void setup () {
 
   motorFly1.attach(motorFly1);
   motorFly2.attach(motorFly2);
-
+  rotate.attach(rotate);
   tilt.attach(tilt);
 
 
