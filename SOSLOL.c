@@ -46,7 +46,6 @@ void setup () {
   Serial.begin(9600);
   pinMode(rotatePin, OUTPUT);
   pinMode(motorPinFly1, OUTPUT);
-  pinMode(motorPinFly2, OUTPUT);
   pinMode(tiltPin, OUTPUT);
   pinMode(button, INPUT); 
 
@@ -65,20 +64,18 @@ void setup () {
 void loop() {
    // rotate.write(180);
     //digitalWrite(rotatePin,map(100,-100,100,-1000,2000));
-  rotate.write(map(100,-100,100,1000,2000));
 
-
-  // JoystickY();
-  // JoystickX();
-  // printf(mapY);
-//   printf(mapX);
-  // Button();
-  // FlyWheelShoot(onOff);
- // TiltandRotate(mapX,mapY);
+  JoystickY();
+  JoystickX();
+  printf(mapY);
+  printf(mapX);
+  Button();
+  FlyWheelShoot(onOff);
+  TiltandRotate();
 }
 
 void Button(){
-  if(digitalRead(button)==HIGH){
+  if(digitalRead(button)==LOW){
     onOff = true;
   } else {
     onOff = false;
@@ -101,16 +98,14 @@ void FlyWheelShoot(bool but){
   if(but == true){
     digitalWrite(motorPinFly1,HIGH);
     delay(10);
-    digitalWrite(motorPinFly2,HIGH);
   } else {
     digitalWrite(motorPinFly1,LOW);
     delay(50);
-    digitalWrite(motorPinFly2,LOW);
   }
 
 }
 void TiltandRotate(){
-  rotate.write(map(mapX,-100,100,1000,2000));
+  rotate.write(map(-mapX,-100,100,1000,2000));
   delay(10);
   tilt.write(map(mapY,-100,100,1000,2000));
 
