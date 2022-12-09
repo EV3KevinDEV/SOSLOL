@@ -16,6 +16,8 @@ Joystick
 
 //Flywheel 
 int motorPinFly1 = 7;
+Servo motorFly1;
+Servo motorFly2;
 
 //TiltMotor
 int tiltPin = 3; 
@@ -44,8 +46,12 @@ void setup () {
   Serial.begin(9600);
   pinMode(rotatePin, OUTPUT);
   pinMode(motorPinFly1, OUTPUT);
+  pinMode(motorPinFly2, OUTPUT);
   pinMode(tiltPin, OUTPUT);
   pinMode(button, INPUT); 
+
+  // motorFly1.attach(motorPinFly1);
+  // motorFly2.attach(motorPinFly2);
   rotate.attach(rotatePin);
   tilt.attach(tiltPin);
 
@@ -59,24 +65,60 @@ void setup () {
 void loop() {
    // rotate.write(180);
     //digitalWrite(rotatePin,map(100,-100,100,-1000,2000));
- rotate.write(map(100,-100,100,1000,2000));
- digitalWrite(motorPinFly1,LOW);
-//
+  rotate.write(map(100,-100,100,1000,2000));
+
 
   // JoystickY();
   // JoystickX();
   // printf(mapY);
 //   printf(mapX);
   // Button();
- // FlyWheelShoot(true);
+  // FlyWheelShoot(onOff);
  // TiltandRotate(mapX,mapY);
 }
 
-//
+void Button(){
+  if(digitalRead(button)==HIGH){
+    onOff = true;
+  } else {
+    onOff = false;
+  }
+}
+
+void JoystickY(){
+  yPosition = analogRead(VRy);
+  delay(10);
+  mapY = map(yPosition, 0, 1023, -512, 512);
+}
+
+void JoystickX(){
+  xPosition = analogRead(VRx);
+  delay(10);
+  mapX = map(xPosition, 0, 1023, -512, 512);
+}
+
+void FlyWheelShoot(bool but){
+  if(but == true){
+    digitalWrite(motorPinFly1,HIGH);
+    delay(10);
+    digitalWrite(motorPinFly2,HIGH);
+  } else {
+    digitalWrite(motorPinFly1,LOW);
+    delay(50);
+    digitalWrite(motorPinFly2,LOW);
+  }
+
+}
+void TiltandRotate(){
+  rotate.write(map(mapX,-100,100,1000,2000));
+  delay(10);
+  tilt.write(map(mapY,-100,100,1000,2000));
+
+
   // digitalWrite(rotatePin,map(mapX,-100,100,1000,2000));
   // delay(50);
   // digitalWrite(tiltPin,map(mapY,-100,100,1000,2000));
-//}//
+}
 
 
 // void TiltandRotate(long xSpeed = 0.0, long ySpeed=0.0){
