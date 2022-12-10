@@ -55,16 +55,14 @@ void setup() {
 }
 
 void loop() {
-  angle = map(analogRead(10),0,4096,0,90);
+  angle = map(analogRead(A5),0,1023,0,90);
   rotate.setDeadBand(60);
-  printf(angle);
   tilt.setDeadBand(60);
   tilt2.setDeadBand(60);
- // Joystick();
-//  PController(mapY);
+  Joystick();
+  PController(60);
   TiltandRotate();
   Button();
-  FlyWheelShoot(onOff);
   // put your main code here, to run repeatedly:
 
 }
@@ -85,9 +83,10 @@ void Button(){
 
 void Joystick(){
   yPosition = analogRead(VRy);
+  xPosition = analogRead(VRx);
   delay(10);
-  mapY = map(yPosition, 0, 1024, -100, 100); //-512,512
-  mapX = map(xPosition, 0, 1024, -100, 100); //-512,512
+  mapY = map(yPosition, 0, 736, -100, 100); //-512,512
+  mapX = map(xPosition, 0, 736, -100, 100); //-512,512
 }
 
 
@@ -100,8 +99,7 @@ void FlyWheelShoot(bool but){
 
 }
 void TiltandRotate(){
- // rotate.write(mapX);
-//  rotate.write(map(-mapX,-100,100,1000,2000));
+ rotate.write(mapX);
   //delay(10);
  // tilt.write(mapY);
  // tilt2.write(-mapY);
